@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue应用实例: 天气预报</title>
+    <style>
+        .search_form {
+            max-width: 500px;
+            margin: 0 auto;
+            padding-top: 30px;
+        }
+
+        .logo {
+            text-align: center;
+            font-size: 30px;
+            padding: 10px;
+            color: #999;
+        }
+
+        .form_group {
+            overflow: hidden;
+            clear: both;
+        }
+
+        .form_group input {
+            width: calc(100% - 112px);
+            height: 34px;
+            line-height: 34px;
+            padding: 4px 15px;
+            border: 1px solid #0088ff;
+            float: left;
+            font-size: 14px;
+
+        }
+
+        .form_group button {
+            width: 80px;
+            height: 44px;
+            line-height: 44px;
+            background: #0088ff;
+            color: #fff;
+            border: none;
+            font-size: 16px;
+        }
+
+        .hotkey a {
+            color: #999;
+            font-size: 13px;
+            padding: 10px 10px 0 0;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .hotkey a:hover {
+            color: #0088ff;
+        }
+
+        ul.weather_list {
+            padding: 20px 0;
+            display: flex;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        ul.weather_list li {
+            list-style: none;
+            padding: 10px 30px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        ul.weather_list li .info_type {
+            font-size: 26px;
+            color: #ff6600;
+        }
+
+        ul.weather_list li .info_temp {
+            padding-bottom: 15px;
+            font-size: 13px;
+            color: #ff6600;
+        }
+
+        .info_fengxiang {
+            padding: 10px 0 2px 0;
+            font-size: 13px;
+            color: #ff6600;
+        }
+
+        ul.weather_list li .info_date {
+            font-size: 14px;
+            color: #999;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="wrap" id="app">
+        <div class="search_form">
+            <h2 class="logo">天气预报</h2>
+            <div class="form_group">
+                <input type="text" class="input_txt" v-model="city" @keyup.enter="searchWeather" placeholder="请输入查询地" />
+                <button class="input_sub">搜 索</button>
+            </div>
+            <div class="hotkey">
+                <a href="javascript:;" v-for="item in hotkey" @click="changCity(item)">{{item}}</a>
+            </div>
+        </div>
+        <ul class="weather_list">
+            <li v-for="item in weatherList">
+                <div class="info_type"><span class="iconfont">{{ item.type }}</span></div>
+                <div class="info_fengxiang">
+                    <span>{{ item.fengxiang }}</span>
+                </div>
+                <div class="info_temp">
+                    <span>{{ item.high }}</span>
+                    ~
+                    <span>{{ item.low }}</span>
+                </div>
+                <div class="info_date"><span>{{ item.date }}</span></div>
+            </li>
+        </ul>
+    </div>
+    <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- 官网提供的 axios 在线地址 -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        /*
+            请求地址:http://wthrcdn.etouch.cn/weather_mini
+            请求方法:get
+            请求参数:city(城市名)
+            响应内容:天气信息
+            
+            1.点击回车
+            2.查询数据
+            3.渲染数据
+        */
+        var app = new Vue({
+            el: "#app",
+            data: {
+                hotkey: ["北京", "海口", "广州", "长沙"],
+                city: '',
+                weatherList: [],
+            },
+            methods: {
+                searchWeather: function() {
+                    var that = this;
+                    axios.get('http://wthrcdn.etouch.cn/weather_mini?city=' + this.city)
+                        .then(function(response) {
+                            // console.log(response.data.data.forecast);
+                            that.weatherList = response.data.data.forecast;
+                        })
+                        .catch(function(err) {
+                            console.log(err)
+                        })
+                },
+                changCity: function(city) {
+                    this.city = city;
+                    this.weatherList();
+                }
+            },
+        })
+
+    </script>
+</body>
+
+</html>
