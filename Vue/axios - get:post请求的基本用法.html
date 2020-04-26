@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue学习: v-for指令</title>
+</head>
+
+<body>
+    <div id="app">
+        <button type="button" @click="add">添加</button>
+        <button type="button" @click="remove">移除</button>
+        <ul>
+            <li v-for="(item,index) in arr">
+                {{ index+1 }}{{ item }}
+            </li>
+        </ul>
+        <h2 v-for="item in food">
+            {{ item.name }}
+        </h2>
+    </div>
+    <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                arr: ["北京", "上海", "深圳", "郑州", "广州", "重庆", "厦门", "海南"],
+                food: [{
+                        name: "西瓜"
+                    },
+                    {
+                        name: "苹果"
+                    },
+                    {
+                        name: "葡萄"
+                    },
+                    {
+                        name: "哈密瓜"
+                    }
+                ]
+            },
+            methods: {
+                add: function() {
+                    this.food.push({
+                        name: "樱桃"
+                    });
+                },
+                remove: function() {
+                    this.food.shift();
+                }
+            },
+        })
+
+    </script>
+</body>
+
+</html>

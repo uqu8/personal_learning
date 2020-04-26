@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue学习: 记事本</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 16px;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 50px;
+            text-transform: uppercase;
+        }
+
+        .notepadbox {
+            width: 400px;
+            min-height: 100px;
+            padding-bottom: 60px;
+            margin: 0 auto;
+            position: relative;
+            border: 1px solid #eee;
+            background: #fff;
+            overflow: hidden;
+            box-shadow: 0 4px 24px 0px rgba(0, 0, 0, 0.2);
+        }
+
+        .notepadbox input {
+            width: 100%;
+            height: 30px;
+            padding: 10px 15px;
+            line-height: 30px;
+            color: #666;
+            font-size: 14px;
+            background: #f8f8f8;
+            border: none;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .notepadbox .nothing {
+            color: #eee;
+            font-size: 34px;
+            text-align: center;
+            padding: 50px 30px;
+        }
+
+        .notepadbox ul {
+            padding: 0;
+            margin: 0;
+        }
+
+        .notepadbox ul li {
+            list-style: none;
+            padding: 15px 40px 15px 15px;
+            color: #ff6600;
+            border-bottom: 1px solid #eee;
+        }
+
+        .notepadbox ul li a.clear {
+            display: none;
+            color: #ff6600;
+            position: absolute;
+            right: 15px;
+            font-size: 22px;
+            z-index: 99;
+        }
+
+        .notepadbox ul li:hover a.clear {
+            display: inline-block;
+        }
+
+        .notepadbox .foot {
+            background: #f8f8f8;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            color: #999;
+            font-size: 12px;
+            margin-top: 10px;
+            position: absolute;
+            bottom: 0px;
+            left: 0;
+            right: 0;
+        }
+
+        .notepadbox .foot span.inum {
+            color: #ff6600;
+            font-size: 14px;
+        }
+
+        .notepadbox .foot a {
+            color: #999;
+        }
+
+        .notepadbox .foot a:hover {
+            color: #ff6600;
+        }
+
+        footer {
+            color: #999;
+            font-size: 14px;
+            padding: 20px;
+            text-align: center;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="notepad">
+        <h1>notepad</h1>
+        <div class="notepadbox">
+            <input type="text" placeholder="请输入计划" value="" @keyup.enter="addTask" v-model="inputvalue">
+            <ul>
+                <li v-for="(item,num) in list">
+                    <span>{{ num+1 }}: {{ item }}</span>
+                    <a href="javascript:;" class="clear" @click="remove(index)">×</a>
+                </li>
+            </ul>
+            <div class="nothing" v-if="list.length==0">暂无任何任务</div>
+            <div class="foot">
+                <span v-if="list.length!=0"><span class="inum">{{ list.length }}</span> item</span>
+                <a v-show="list.length!=0" href="javascript:;" @click="clearAll(index)">clear</a>
+            </div>
+        </div>
+        <footer>
+            @leo.bian
+        </footer>
+    </div>
+    <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var ap = new Vue({
+            el: "#notepad",
+            data: {
+                list: ["学习", "吃饭", "睡觉"],
+                inputvalue: [""]
+            },
+            methods: {
+                addTask: function() {
+                    this.list.push(this.inputvalue)
+                },
+                remove: function(index) {
+                    this.list.splice(index, 1)
+                },
+                clearAll: function(index) {
+                    this.list.splice(index)
+                },
+                // 也可用于清空所有
+                // clearAll:function(index){
+                //     this.list = []
+                // }
+            },
+
+        })
+
+    </script>
+</body>
+
+</html>

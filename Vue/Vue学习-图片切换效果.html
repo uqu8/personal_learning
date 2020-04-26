@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue学习: 图片切换效果</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.7/semantic.min.css">
+    <style>
+        body {
+            background: gainsboro;
+            margin: 5%;
+        }
+
+        body h1 {
+            font-size: 5vw;
+        }
+
+        body p>code {
+            background: linen;
+            border-radius: 3px;
+            color: dimgrey;
+            margin: 0 .1em;
+            padding: .1em .2em;
+            text-shadow: none;
+        }
+
+        .ui.text.container {
+            max-width: 640px !important;
+            height: 320px;
+            position: relative;
+        }
+
+        .ui.text.container img {
+            width: 640px;
+            height: 320px;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .slides {
+            background: white;
+            height: 20rem;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .slides .angle {
+            color: lightblue;
+            cursor: pointer;
+            position: relative;
+            top: calc(50% - 20px);
+            transform: scale(1);
+            transition: all .2s ease-in-out;
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .slides .angle:hover {
+            transform: scale(1.8);
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .slides .angle.right {
+            float: right;
+            margin-right: 1rem;
+        }
+
+        .slides .angle.left {
+            float: left;
+            margin-left: 1rem;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="mask">
+        <div class="ui container">
+            <div class="ui text container slides">
+                <i @click="prev" v-show="index!=0" class="big left angle icon"></i>
+                <i @click="next" v-show="index<imgArr.length-1" class="big right angle icon"></i>
+                <img :src="imgArr[index]" alt="">
+            </div>
+        </div>
+    </div>
+    <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: "#mask",
+            data: {
+                imgArr: [
+                    "http://thecodeplayer.com/uploads/media/8k3N3EL.jpg",
+                    "http://thecodeplayer.com/uploads/media/2rT2vdx.jpg",
+                    "http://thecodeplayer.com/uploads/media/00kih8g.jpg",
+                    "http://thecodeplayer.com/uploads/media/40Ly3VB.jpg",
+                    "http://thecodeplayer.com/uploads/media/3yiC6Yq.jpg",
+                ],
+                index: 0
+            },
+            methods: {
+                prev: function() {
+                    this.index--;
+                },
+                next: function() {
+                    this.index++;
+                }
+            },
+        })
+
+    </script>
+</body>
+
+</html>
